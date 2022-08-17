@@ -73,8 +73,17 @@ async function run() {
       const editUser = req.body;
       const filter = { _id: ObjectId(id) };
       const options = { upsert: true };
-
-      const result = await usersCollection.updateOne(filter, editUser, options);
+      const updateDoc = {
+        $set: {
+          name: editUser.name,
+          email: editUser.email,
+        },
+      };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
       console.log("API is hitting for Update", result);
       res.json(result);
     });
